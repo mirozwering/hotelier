@@ -1,0 +1,15 @@
+    {% extends 'myhotel/main.html' %}
+    {% block title %}room_list{% endblock %}
+    {% block body %}
+    <h1>Roomlist</h1>
+
+        <div class="row">
+         <ul>
+         {% for room in room_list %}
+         <li>{{ room }}</li>
+         {% endfor %}
+         </ul>
+        </div>
+        </div>
+
+    {% endblock %}

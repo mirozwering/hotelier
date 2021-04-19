@@ -6,3 +6,4 @@ class RoomAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 admin.site.register(Room, RoomAdmin)
+admin.site.register(Booking)

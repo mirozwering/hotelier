@@ -1,0 +1,60 @@
+{% extends 'myhotel/main.html' %}
+{% load static %}
+
+
+{% block title %}Room detail{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'myhotel/css/room_detail_view.css' %}">
+
+<div class="card bg-dark text-white"" style="max-width: 1200px;">
+  <div class="row g-0">
+    <div class="col-md-5">
+      <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60">
+    </div>
+    <div class="col-md-7">
+      <div class="card-body">
+       <!-- Div 1: Back to Home -->
+        <div class="home">
+            <a href="{% url 'RoomListView' %}"><i class="fas fa-arrow-alt-circle-left">Home</i></a>
+        </div>
+
+        <!-- Div 2: Room Information -->
+        <div class="room-info">
+            <h1>{{room_category}}</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id optio rem saepe culpa architecto tempora
+                numquam debitis reiciendis! Quaerat laudantium consequuntur doloribus quod placeat consectetur
+                veniam,
+                rerum repellendus magnam labore. </p>
+        </div>
+        <!-- Div 3: Room Booking Form -->
+                    <form id="booking-form" action="" method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- Input Div -->
+                        <div class="input-div">
+                            <label for="id_check_in">Check In : </label>
+                            <input type="date" id="id_check_in" name="check_in">
+                        </div>
+
+                        <!-- Input Div -->
+                        <div class="input-div">
+                            <label for="id_check_out">Check Out : </label>
+                            <input type="date" id="id_check_out" name="check_out">
+                        </div>
+
+                        <!-- Input Div -->
+                        <div class="input-div">
+                            <button class="btn btn-secondary" type="submit">Book the Room</button>
+                        </div>
+
+                    </form>
+                    
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
