@@ -1,0 +1,17 @@
+{%  extends 'myhotel/main.html' %}
+{% block title %}register{% endblock %}
+{% block body %}
+
+<h3>Register</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create User">
+</form>
+				
+<div class="mt-4">
+    <div class="">
+        Already have an account? <a href="{% url 'login' %}" class="">Login</a>
+    </div>
+</div>
+{% endblock %}

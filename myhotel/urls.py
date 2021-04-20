@@ -7,6 +7,9 @@ urlpatterns = [
     path('booking_list/', views.BookingList.as_view(), name="BookingList"),
     path('book/', views.BookingView.as_view(), name="BookingView"),
     path('room/<category>/', views.RoomDetailView.as_view(), name="RoomDetailView"),
+    path('register/', views.register, name="register"),
+    path('login', views.login_view, name="login"),
+    path('logout', views.logout_user, name="logout"),
     # path('room_detail/<int:pk>', views.RoomDetailView.as_view(), name="room_detail_view"), # miro shit
 
 ]

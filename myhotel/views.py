@@ -5,14 +5,52 @@ from django.utils import timezone
 from django.views.generic import ListView, FormView, View, DetailView
 from .forms import *
 from django.urls import reverse
+from .forms import CreateUserForm
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
-# def roomDetailView(request, category):
-#     room_list = Room.objects.filter(category=category)
 
-#     context = {"room": room_list, "room_category": category}
-#     # print("Context:", context)
-#     # return HttpResponse(category)
-#     return render(request, 'myhotel/room_detail_view.html', context)
+def register(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("RoomListView"))
+    else:
+        form = CreateUserForm()
+        if request.method == "POST":
+            filled_form = CreateUserForm(request.POST)
+            if filled_form.is_valid():
+                filled_form.save()
+                return HttpResponseRedirect(reverse("login"))
+        context = {"form": form}
+        return render(request, "myhotel/register.html", context)
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("RoomListView"))
+    else:
+        if request.method == "POST":
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(reverse("RoomListView"))
+            else:
+                return render(request, "myhotel/login.html", {
+                    "message": "Invalid Credentials"
+                })
+
+        context = {}
+        return render(request, "myhotel/login.html", context)
+
+
+
+@login_required(login_url="login")
+def logout_user(request):
+    logout(request)
+    context = {}
+    return render(request, "myhotel/login.html", context)
+
 
 class RoomDetailView(View):
     def get(self, request, *args, **kwargs):
@@ -68,6 +106,13 @@ def roomListView(request):
 
 class BookingList(ListView):
     model = Booking
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            booking_list = Booking.objects.all()
+            return booking_list
+        else:
+            booking_list = Booking.objects.filter(booker=self.request.user)
+            return booking_list
 
 class BookingView(FormView):
     form_class = AvailabilityForm
