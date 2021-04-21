@@ -1,14 +1,50 @@
     {% extends 'myhotel/main.html' %}
+    {% load static %}
     {% block title %}booking_list{% endblock %}
     {% block body %}
-    <h1>Bookinglist</h1>
+    <link rel="stylesheet" href="{% static 'myhotel/css/booking_list.css' %}">
 
-        <div class="row">
-        <ul>
+        <div class="headings">
+            <h1>Your Bookings</h1>
+            <h2> Welcome dear {{ user }}</h2>
+        </div>
+        <!-- Div 1: Back to home -->
+        <div class="home">
+            <a href="{% url 'RoomListView' %}"><iclass="fas fa-arrow-alt-circle-left">Home</i></a>
+        </div>
+        
+
+        {% comment %} <ul>
          {% for booking in booking_list %}
-         <li>{{ booking}}</li>
+         <li>{{ booking }}</li>
          {% endfor %}
-         </ul>
+         </ul> {% endcomment %}
+    
+        <div class="bookings">
+            {% for booking in booking_list %}
+            <div class="booking">
+                <img src="https://media.istockphoto.com/photos/3d-rendering-beautiful-luxury-bedroom-suite-in-hotel-with-tv-picture-id1066999762?s=612x612" class="card-img-top" alt="...">
+                <div class="category">
+                <h2 class="card-title">{{ booking.get_room_category }} Suite</h5>
+                </div>
+                <div class="from">
+                <h2 class="card-title">From: {{ booking.check_in }}</h5>
+                </div>
+                <div class="to">
+                <h2 class="card-title">To: {{ booking.check_out }}</h5>
+                </div>
+                <div class="beds">
+                <h2 class="card-title">Beds:{{ booking.room.beds }}</h5>
+                </div>
+                <div class="capacity">
+                <h2 class="card-title">Capacity:{{ booking.room.capacity }}</h5>
+                </div>
+                <div class="cancel">
+                <a href="{{ booking.get_cancel_booking_url }}" class="hidden"><i>Cancel Booking</i></a>
+                </div>
+                
+            </div>
+            {% endfor %}
         </div>
 
     {% endblock %}

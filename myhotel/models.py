@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 class Room(models.Model):
     ROOM_CATEGORIES = [
@@ -37,3 +38,15 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.booker} booked {self.room} from {self.check_in} upto {self.check_out}"
+
+    @property
+    def get_room_category(self):
+        for item in self.room.ROOM_CATEGORIES:
+                if item[0] == self.room.category:
+                    room_category = item[1]
+        return room_category
+
+    @property
+    def get_cancel_booking_url(self):
+        return reverse_lazy('CancelBookingView', args=[self.pk,])
+
